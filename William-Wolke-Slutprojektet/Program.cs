@@ -13,8 +13,9 @@ namespace William_Wolke_Slutprojektet
             string[,] board;
             int[] currentPosition = { 0, 0 };
 
+
             InitialBoard(out board);
-            //WHile loop eftersom att man inte vet hur många gånger 
+            //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
             while (1 == 1)
             {
                 //FOr loop eftersom att den endast kommer köras ett visst antal gånger
@@ -28,17 +29,57 @@ namespace William_Wolke_Slutprojektet
                             board[i, j] = "[ * ]";
                         }
 
-                        else { 
-                            board[i, j] = "[   ]"; 
+                        else
+                        {
+                            board[i, j] = "[   ]";
                         }
 
                         Console.Write(board[i, j]);
                     }
                     Console.WriteLine();
-                    currentPosition[1] += 1;
                 }
-                Console.ReadLine();
+
+                ChangePosition(currentPosition);
+                Console.WriteLine();
             }
+        }
+
+        private static int[] ChangePosition(int[] currentPosition)
+        {
+            ConsoleKeyInfo ValidKeys = Console.ReadKey(true);
+
+            if (ValidKeys.Key == ConsoleKey.W)
+            {
+                if (currentPosition[0] == 0)
+                {
+                    currentPosition[0] = 0;
+
+                    return currentPosition; 
+                }
+
+                else
+                {
+                    currentPosition[0] -= 1;
+                    return currentPosition;
+                }
+            }
+
+            else if (ValidKeys.Key == ConsoleKey.S)
+            {
+                if (currentPosition[0] == 9)
+                {
+                    currentPosition[0] = 9;
+                    return currentPosition;
+                }
+
+                else
+                {
+                    currentPosition[0] += 1;
+                    return currentPosition;
+                }
+
+            }
+            return currentPosition;
         }
 
         private static string[,] InitialBoard(out string[,] board)
