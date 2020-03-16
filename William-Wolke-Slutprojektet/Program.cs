@@ -10,37 +10,44 @@ namespace William_Wolke_Slutprojektet
     {
         static void Main(string[] args)
         {
-            string[,] board;
+            int [,] board;
+            //En 10*10 2d array
+            board = new int[10, 10];
+
             int[] currentPosition = { 0, 0 };
 
+            int[] formerPosition = { 0, 0 };
 
-            InitialBoard(out board);
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
             while (1 == 1)
             {
+                Console.Clear();
+                board[formerPosition[0], formerPosition[1]] = 0;
                 //FOr loop eftersom att den endast kommer köras ett visst antal gånger
                 for (int i = 0; i < 10; i++)
                 {
                     //for loop eftersom att den alltid kommer köras 10 gånger
                     for (int j = 0; j < 10; j++)
                     {
-                        if (board[i, j] == board[currentPosition[0], currentPosition[1]])
+                        if (board[i, j] == 0)
                         {
-                            board[i, j] = "[ * ]";
+                            Console.Write("[   ]");
                         }
 
-                        else
+                        else if (board[i, j] == 1)
                         {
-                            board[i, j] = "[   ]";
-                        }
+                            Console.Write("[ * ]");
 
-                        Console.Write(board[i, j]);
+                            formerPosition[0] = i;
+                            formerPosition[1] = j;
+                        }
                     }
                     Console.WriteLine();
                 }
 
-                ChangePosition(currentPosition);
                 Console.WriteLine();
+                ChangePosition(currentPosition);
+                board[currentPosition[0], currentPosition[1]] = 1;
             }
         }
 
@@ -52,8 +59,6 @@ namespace William_Wolke_Slutprojektet
             {
                 if (currentPosition[0] == 0)
                 {
-                    currentPosition[0] = 0;
-
                     return currentPosition; 
                 }
 
@@ -68,7 +73,6 @@ namespace William_Wolke_Slutprojektet
             {
                 if (currentPosition[0] == 9)
                 {
-                    currentPosition[0] = 9;
                     return currentPosition;
                 }
 
@@ -79,22 +83,38 @@ namespace William_Wolke_Slutprojektet
                 }
 
             }
-            return currentPosition;
-        }
 
-        private static string[,] InitialBoard(out string[,] board)
-        {
-            //En 10*10 2d array
-            board = new string[10, 10];
-            for (int i = 0; i < 10; i++)
+            if (ValidKeys.Key == ConsoleKey.A)
             {
-                for (int j = 0; j < 10; j++)
+                if (currentPosition[1] == 0)
                 {
-                    
+                    return currentPosition;
+                }
+
+                else
+                {
+                    currentPosition[1] -= 1;
+                    return currentPosition;
                 }
             }
 
-            return board;
+            else if (ValidKeys.Key == ConsoleKey.D)
+            {
+                if (currentPosition[1] == 9)
+                {
+                    currentPosition[1] = 9;
+                    return currentPosition;
+                }
+
+                else
+                {
+                    currentPosition[1] += 1;
+                    return currentPosition;
+                }
+
+            }
+            return currentPosition;
         }
+
     }
 }
