@@ -24,8 +24,10 @@ namespace William_Wolke_Slutprojektet
                 PlotBoard(board, formerPosition);
 
                 Console.WriteLine();
-                ChangePosition(currentPosition);
-                board[currentPosition[0], currentPosition[1]] = 1;
+                ChangePositionOrFire(currentPosition, board);
+
+                
+
             }
         }
 
@@ -53,10 +55,11 @@ namespace William_Wolke_Slutprojektet
                     }
                 }
                 Console.WriteLine();
+
             }
         }
 
-        private static int[] ChangePosition(int[] currentPosition)
+        private static int[] ChangePositionOrFire(int[] currentPosition, int[,] board)
         {
             ConsoleKeyInfo ValidKeys = Console.ReadKey(true);
 
@@ -116,6 +119,17 @@ namespace William_Wolke_Slutprojektet
                     currentPosition[1] += 1;
                     return currentPosition;
                 }
+
+            }
+
+            else if (ValidKeys.Key == ConsoleKey.F)
+            {
+                board[currentPosition[0], currentPosition[1]] += 1;
+
+                if (board[currentPosition[0], currentPosition[1]] == 2) {
+
+                }
+                    
 
             }
             return currentPosition;
