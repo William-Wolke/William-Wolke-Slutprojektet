@@ -21,7 +21,7 @@ namespace William_Wolke_Slutprojektet
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
             while (1 == 1)
             {
-                PlotBoard(board, formerPosition);
+                PlotBoard(board, formerPosition, currentPosition);
 
                 Console.WriteLine();
                 ChangePositionOrFire(currentPosition, board);
@@ -31,10 +31,9 @@ namespace William_Wolke_Slutprojektet
             }
         }
 
-        private static void PlotBoard(int[,] board, int[] formerPosition)
+        private static void PlotBoard(int[,] board, int[] formerPosition, int[] currentPosition)
         {
             Console.Clear();
-            board[formerPosition[0], formerPosition[1]] = 0;
             //FOr loop eftersom att den endast kommer köras ett visst antal gånger
             for (int i = 0; i < 10; i++)
             {
@@ -46,12 +45,21 @@ namespace William_Wolke_Slutprojektet
                         Console.Write("[   ]");
                     }
 
-                    else if (board[i, j] == 1)
+                    else if (board[i, j] == board[currentPosition[0],currentPosition[1]])
                     {
                         Console.Write("[ * ]");
 
-                        formerPosition[0] = i;
-                        formerPosition[1] = j;
+                      
+                    }
+
+                    else if (board[i, j] == 3)
+                    {
+                        Console.Write("[ Hit ]");
+                    }
+
+                    else if (board[i, j] == 4)
+                    {
+                        Console.Write("[ Miss ]");
                     }
                 }
                 Console.WriteLine();
@@ -95,7 +103,7 @@ namespace William_Wolke_Slutprojektet
             else if (ValidKeys.Key == ConsoleKey.A)
             {
                 if (currentPosition[1] == 0)
-                {
+                { 
                     return currentPosition;
                 }
 
@@ -109,8 +117,7 @@ namespace William_Wolke_Slutprojektet
             else if (ValidKeys.Key == ConsoleKey.D)
             {
                 if (currentPosition[1] == 9)
-                {
-                    currentPosition[1] = 9;
+                { 
                     return currentPosition;
                 }
 
@@ -128,10 +135,22 @@ namespace William_Wolke_Slutprojektet
 
                 if (board[currentPosition[0], currentPosition[1]] == 2) {
 
+                    Console.WriteLine("Lemur träff"); 
+                }
+
+                else if (board[currentPosition[0], currentPosition[1]] == 1)
+                {
+                    Console.WriteLine("Lemur miss");
                 }
                     
 
             }
+
+            else
+            {
+                Console.WriteLine("Fel knapptryck");
+            }
+
             return currentPosition;
         }
 
