@@ -18,20 +18,34 @@ namespace William_Wolke_Slutprojektet
 
             int[] formerPosition = { 9, 9 };
 
+            PlaceShips(board);
+
+
+
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
             while (1 == 1)
             {
-                PlotBoard(board, formerPosition, currentPosition);
+                
+
+                PlotBoard(board, currentPosition);
 
                 Console.WriteLine();
                 ChangePositionOrFire(currentPosition, board);
 
-                
-
             }
         }
 
-        private static void PlotBoard(int[,] board, int[] formerPosition, int[] currentPosition)
+        private static int[,] PlaceShips(int[,] board)
+        {
+            Random generator = new Random();
+
+            board[generator.Next(10), generator.Next(10)] += 1;
+            
+
+            return board;
+        }
+
+        private static void PlotBoard(int[,] board, int[] currentPosition)
         {
             Console.Clear();
             //FOr loop eftersom att den endast kommer köras ett visst antal gånger
@@ -40,26 +54,24 @@ namespace William_Wolke_Slutprojektet
                 //for loop eftersom att den alltid kommer köras 10 gånger
                 for (int j = 0; j < 10; j++)
                 {
-                    if (board[i, j] == 0)
+                    if (i == currentPosition[0] && j == currentPosition[1]) 
+                    {
+                        Console.Write("[ * ]");
+                    }
+
+                    else if (board[i, j] == 0)
                     {
                         Console.Write("[   ]");
                     }
 
-                    else if (board[i, j] == board[currentPosition[0],currentPosition[1]])
+                    else if (board[i, j] == 2)
                     {
-                        Console.Write("[ * ]");
-
-                      
+                        Console.Write("[ X ]");
                     }
 
                     else if (board[i, j] == 3)
                     {
-                        Console.Write("[ Hit ]");
-                    }
-
-                    else if (board[i, j] == 4)
-                    {
-                        Console.Write("[ Miss ]");
+                        Console.Write("[ O ]");
                     }
                 }
                 Console.WriteLine();
@@ -131,19 +143,7 @@ namespace William_Wolke_Slutprojektet
 
             else if (ValidKeys.Key == ConsoleKey.F)
             {
-                board[currentPosition[0], currentPosition[1]] += 1;
-
-                if (board[currentPosition[0], currentPosition[1]] == 2) {
-
-                    Console.WriteLine("Lemur träff"); 
-                }
-
-                else if (board[currentPosition[0], currentPosition[1]] == 1)
-                {
-                    Console.WriteLine("Lemur miss");
-                }
-                    
-
+                Shoot(currentPosition, board);
             }
 
             else
@@ -154,5 +154,36 @@ namespace William_Wolke_Slutprojektet
             return currentPosition;
         }
 
+        private static void Shoot(int[] currentPosition, int[,] board)
+        {
+
+            int[,] shotSpots = new int[10, 10];
+
+            if () {
+
+
+
+            }
+
+            else {
+                board[currentPosition[0], currentPosition[1]] += 1;
+            }
+
+
+             
+
+            if (board[currentPosition[0], currentPosition[1]] == 2)
+            {
+
+                Console.WriteLine("Lemur träff");
+            }
+
+            else if (board[currentPosition[0], currentPosition[1]] == 1)
+            {
+                Console.WriteLine("Lemur miss");
+            }
+
+
+        }
     }
 }
