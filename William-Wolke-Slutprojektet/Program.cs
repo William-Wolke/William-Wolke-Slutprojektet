@@ -10,20 +10,20 @@ namespace William_Wolke_Slutprojektet
     {
         static void Main(string[] args)
         {
-            int [,] board;
             //En 10*10 2d array
-            board = new int[10, 10];
+            int[,] board = new int[10, 10];
 
             int[] currentPosition = { 0, 0 };
 
             int[] formerPosition = { 9, 9 };
 
+            bool win = false;
+
             PlaceShips(board);
 
 
-
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
-            while (1 == 1)
+            while (win == false)
             {
                 
 
@@ -59,20 +59,22 @@ namespace William_Wolke_Slutprojektet
                         Console.Write("[ * ]");
                     }
 
-                    else if (board[i, j] == 0)
-                    {
-                        Console.Write("[   ]");
-                    }
-
                     else if (board[i, j] == 2)
                     {
-                        Console.Write("[ X ]");
+                        Console.Write("[ O ]");
                     }
 
                     else if (board[i, j] == 3)
                     {
-                        Console.Write("[ O ]");
+                        Console.Write("[ X ]");
                     }
+
+                    else
+                    {
+                        Console.Write("[   ]");
+                    }
+
+
                 }
                 Console.WriteLine();
 
@@ -156,34 +158,39 @@ namespace William_Wolke_Slutprojektet
 
         private static void Shoot(int[] currentPosition, int[,] board)
         {
-
             int[,] shotSpots = new int[10, 10];
 
-            if () {
+            int playerPoints = 0;
 
+            if (board[currentPosition[0], currentPosition[1]] == 1) 
+            {
+                if (shotSpots[currentPosition[0], currentPosition[1]] == 0)
+                {
+                    board[currentPosition[0], currentPosition[1]] += 2;
+
+                    shotSpots[currentPosition[0], currentPosition[1]] = 1;
+                }
 
 
             }
 
-            else {
-                board[currentPosition[0], currentPosition[1]] += 1;
+            else if (board[currentPosition[0], currentPosition[1]] == 0)
+            {
+                board[currentPosition[0], currentPosition[1]] += 2;
             }
 
-
-             
-
-            if (board[currentPosition[0], currentPosition[1]] == 2)
+            if (board[currentPosition[0], currentPosition[1]] == 3)
             {
 
                 Console.WriteLine("Lemur träff");
             }
 
-            else if (board[currentPosition[0], currentPosition[1]] == 1)
+            else if (board[currentPosition[0], currentPosition[1]] == 2)
             {
                 Console.WriteLine("Lemur miss");
             }
-
-
+            //shotSpots håller koll på vart man skjuter så att man inte skjuter på ett ställe flera gånger och kanske får mer poäng etc
+            shotSpots[currentPosition[0], currentPosition[1]] = 1;
         }
     }
 }
