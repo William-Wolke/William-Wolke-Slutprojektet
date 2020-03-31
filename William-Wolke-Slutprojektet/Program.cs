@@ -25,7 +25,7 @@ namespace William_Wolke_Slutprojektet
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
             while (win == false)
             {
-                
+
 
                 PlotBoard(board, currentPosition);
 
@@ -37,10 +37,138 @@ namespace William_Wolke_Slutprojektet
 
         private static int[,] PlaceShips(int[,] board)
         {
+            for (int i = 0; i < 2; i++)
+            {
+                PlaceDestoyerHorizontal(board);
+            }
+
+            for (int j = 0; j < 2; j++)
+            {
+                PlaceDestroyerVertikal(board);
+            }
+
+            return board;
+        }
+
+        private static int[,] PlaceDestroyerVertikal(int[,] board)
+        {
             Random generator = new Random();
 
-            board[generator.Next(10), generator.Next(10)] += 1;
-            
+            int destroyerYAxis = 0;
+
+            int destroyerXAxis = 0;
+
+            bool overlap = false;
+
+            bool finished = false;
+
+            while (finished == false)
+            {
+                destroyerYAxis = generator.Next(10);
+
+                destroyerXAxis = generator.Next(10);
+
+                overlap = false;
+
+                for (int index = 0; index < 2; index++)
+                {
+                    while (destroyerYAxis > 8)
+                    {
+                        destroyerYAxis = generator.Next(10);
+
+                    }
+                    board[destroyerYAxis + index, destroyerXAxis] += 1;
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (board[i, j] == 2)
+                        {
+                            overlap = true;
+                        }
+                    }
+                }
+
+                if (overlap == true)
+                {
+                    for (int index = 0; index < 2; index++)
+                    {
+                        board[destroyerYAxis + index, destroyerXAxis] -= 1;
+                    }
+                }
+
+                else
+                {
+                    finished = true;
+                }
+            }
+            return board;
+        }
+
+        private static int[,] PlaceDestoyerHorizontal(int[,] board)
+        {
+            Random generator = new Random();
+
+            int destroyerYAxis = 0;
+
+            int destroyerXAxis = 0;
+
+            bool overlap = false;
+
+            bool finished = false;
+
+            while (finished == false)
+            {
+                destroyerYAxis = generator.Next(10);
+
+                destroyerXAxis = generator.Next(10);
+
+                overlap = false;
+
+                for (int index = 0; index < 2; index++)
+                {
+
+                    while (destroyerXAxis > 8)
+                    {
+                        destroyerXAxis = generator.Next(10);
+                        
+                    }
+
+                    board[destroyerYAxis, destroyerXAxis + index] += 1;
+
+                    Console.WriteLine("Hello guys");
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (board[i, j] == 2)
+                        {
+                            overlap = true;
+                        }
+                    }
+                }
+
+                if (overlap == true)
+                {
+                    Console.WriteLine("Vegetarisk schnitzel utan löksås");
+                    for (int index = 0; index < 2; index++)
+                    {
+                        board[destroyerYAxis, destroyerXAxis + index] -= 1;
+                    }
+                }
+
+                else
+                {
+                    Console.WriteLine("Schnitzel");
+                    finished = true;
+                }
+
+                Console.WriteLine("Helllo gyus agian");
+            }
 
             return board;
         }
@@ -54,7 +182,7 @@ namespace William_Wolke_Slutprojektet
                 //for loop eftersom att den alltid kommer köras 10 gånger
                 for (int j = 0; j < 10; j++)
                 {
-                    if (i == currentPosition[0] && j == currentPosition[1]) 
+                    if (i == currentPosition[0] && j == currentPosition[1])
                     {
                         Console.Write("[ * ]");
                     }
@@ -89,7 +217,7 @@ namespace William_Wolke_Slutprojektet
             {
                 if (currentPosition[0] == 0)
                 {
-                    return currentPosition; 
+                    return currentPosition;
                 }
 
                 else
@@ -117,7 +245,7 @@ namespace William_Wolke_Slutprojektet
             else if (ValidKeys.Key == ConsoleKey.A)
             {
                 if (currentPosition[1] == 0)
-                { 
+                {
                     return currentPosition;
                 }
 
@@ -131,7 +259,7 @@ namespace William_Wolke_Slutprojektet
             else if (ValidKeys.Key == ConsoleKey.D)
             {
                 if (currentPosition[1] == 9)
-                { 
+                {
                     return currentPosition;
                 }
 
@@ -143,7 +271,7 @@ namespace William_Wolke_Slutprojektet
 
             }
 
-            else if (ValidKeys.Key == ConsoleKey.F)
+            else if (ValidKeys.Key == ConsoleKey.Enter)
             {
                 Shoot(currentPosition, board);
             }
@@ -162,7 +290,7 @@ namespace William_Wolke_Slutprojektet
 
             int playerPoints = 0;
 
-            if (board[currentPosition[0], currentPosition[1]] == 1) 
+            if (board[currentPosition[0], currentPosition[1]] == 1)
             {
                 if (shotSpots[currentPosition[0], currentPosition[1]] == 0)
                 {
