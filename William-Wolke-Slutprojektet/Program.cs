@@ -12,26 +12,20 @@ namespace William_Wolke_Slutprojektet
         {
             //En 10*10 2d array
             int[,] board = new int[10, 10];
-
+            //currentposition visar ens nuvarande läge och styr då markören.
             int[] currentPosition = { 0, 0 };
-
-            int[] formerPosition = { 9, 9 };
 
             bool win = false;
 
             PlaceShips(board);
 
-
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
             while (win == false)
             {
-
-
                 PlotBoard(board, currentPosition);
 
                 Console.WriteLine();
                 ChangePositionOrFire(currentPosition, board);
-
             }
         }
 
@@ -45,6 +39,130 @@ namespace William_Wolke_Slutprojektet
             for (int j = 0; j < 2; j++)
             {
                 PlaceDestroyerVertikal(board);
+            }
+
+            for (int l = 0; l < 2; l++)
+            {
+                PlaceCruiserVertikal(board);
+            }
+
+            PlaceCruiserHorizontal(board);
+
+            return board;
+        }
+
+        private static int[,] PlaceCruiserVertikal(int[,] board)
+        {
+            Random generator = new Random();
+
+            int cruiserYAxis = 0;
+
+            int cruiserXAxis = 0;
+
+            bool overlap = false;
+
+            bool finished = false;
+
+            while (finished == false)
+            {
+                cruiserYAxis = generator.Next(10);
+
+                cruiserXAxis = generator.Next(10);
+
+                overlap = false;
+
+                for (int index = 0; index < 3; index++)
+                {   //så den inte sätter skepp utanför index
+                    while (cruiserYAxis > 7)
+                    {
+                        cruiserYAxis = generator.Next(10);
+                    }
+                    board[cruiserYAxis + index, cruiserXAxis] += 1;
+                }
+                //for loop för att jag vet att den alltid kommer att köras 10 gånger
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (board[i, j] == 2)
+                        {
+                            //overlap finns eftersom att 
+                            overlap = true;
+                        }
+                    }
+                }
+
+                if (overlap == true)
+                {
+                    for (int index = 0; index < 3; index++)
+                    {
+                        board[cruiserYAxis + index, cruiserXAxis] -= 1;
+                    }
+                }
+
+                else
+                {
+                    finished = true;
+                }
+            }
+            return board;
+        }
+
+        private static int[,] PlaceCruiserHorizontal(int[,] board)
+        {
+            Random generator = new Random();
+
+            int cruiserYAxis = 0;
+
+            int cruiserXAxis = 0;
+
+            bool overlap = false;
+
+            bool finished = false;
+
+            while (finished == false)
+            {
+                cruiserYAxis = generator.Next(10);
+
+                cruiserXAxis = generator.Next(10);
+
+                overlap = false;
+
+                for (int index = 0; index < 3; index++)
+                {
+
+                    while (cruiserXAxis > 7)
+                    {
+                        cruiserXAxis = generator.Next(10);
+
+                    }
+
+                    board[cruiserYAxis, cruiserXAxis + index] += 1;
+                }
+
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (board[i, j] == 2)
+                        {
+                            overlap = true;
+                        }
+                    }
+                }
+
+                if (overlap == true)
+                {
+                    for (int index = 0; index < 3; index++)
+                    {
+                        board[cruiserYAxis, cruiserXAxis + index] -= 1;
+                    }
+                }
+
+                else
+                {
+                    finished = true;
+                }
             }
 
             return board;
@@ -71,21 +189,21 @@ namespace William_Wolke_Slutprojektet
                 overlap = false;
 
                 for (int index = 0; index < 2; index++)
-                {
-                    while (destroyerYAxis > 8)
+                {   //så den inte sätter skepp utanför index
+                    while (destroyerYAxis > 7)
                     {
                         destroyerYAxis = generator.Next(10);
-
                     }
                     board[destroyerYAxis + index, destroyerXAxis] += 1;
                 }
-
+                //for loop för att jag vet att den alltid kommer att köras 10 gånger
                 for (int i = 0; i < 10; i++)
                 {
                     for (int j = 0; j < 10; j++)
                     {
                         if (board[i, j] == 2)
                         {
+                            //overlap finns eftersom att 
                             overlap = true;
                         }
                     }
@@ -137,8 +255,6 @@ namespace William_Wolke_Slutprojektet
                     }
 
                     board[destroyerYAxis, destroyerXAxis + index] += 1;
-
-                    Console.WriteLine("Hello guys");
                 }
 
                 for (int i = 0; i < 10; i++)
@@ -154,7 +270,6 @@ namespace William_Wolke_Slutprojektet
 
                 if (overlap == true)
                 {
-                    Console.WriteLine("Vegetarisk schnitzel utan löksås");
                     for (int index = 0; index < 2; index++)
                     {
                         board[destroyerYAxis, destroyerXAxis + index] -= 1;
@@ -163,11 +278,8 @@ namespace William_Wolke_Slutprojektet
 
                 else
                 {
-                    Console.WriteLine("Schnitzel");
                     finished = true;
                 }
-
-                Console.WriteLine("Helllo gyus agian");
             }
 
             return board;
