@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace William_Wolke_Slutprojektet
@@ -15,12 +16,17 @@ namespace William_Wolke_Slutprojektet
             //currentposition visar ens nuvarande läge och styr då markören.
             int[] currentPosition = { 0, 0 };
 
-            bool win = false;
+            bool gameOver = false;
 
             PlaceShips(board);
 
+            PlayGame(board, currentPosition, gameOver);
+        }
+
+        private static void PlayGame(int[,] board, int[] currentPosition, bool gameOver)
+        {
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
-            while (win == false)
+            while (gameOver == false)
             {
                 PlotBoard(board, currentPosition);
 
@@ -31,23 +37,179 @@ namespace William_Wolke_Slutprojektet
 
         private static int[,] PlaceShips(int[,] board)
         {
+            PlaceAircraftCarrier(board);
+
+            PlaceBattleShip(board);
+
             for (int i = 0; i < 2; i++)
             {
                 PlaceDestoyerHorizontal(board);
             }
 
-            for (int j = 0; j < 2; j++)
+            for (int i = 0; i < 2; i++)
             {
                 PlaceDestroyerVertikal(board);
             }
 
-            for (int l = 0; l < 2; l++)
+            for (int i = 0; i < 2; i++)
             {
                 PlaceCruiserVertikal(board);
             }
 
             PlaceCruiserHorizontal(board);
 
+            return board;
+        }
+
+        private static int[,] PlaceAircraftCarrier(int[,] board)
+        {
+            Random generator = new Random();
+
+            int aircraftCarrierYAxis = 0;
+
+            int aircraftCarrierXAxis = 0;
+
+            bool overlap = false;
+
+            bool finished = false;
+
+            while (finished == false)
+            {
+                aircraftCarrierYAxis = generator.Next(10);
+
+                aircraftCarrierXAxis = generator.Next(10);
+
+                overlap = false;
+
+                int direction = generator.Next(2);
+
+                if (direction == 1)
+                {
+                    for (int index = 0; index < 4; index++)
+                    {   //så den inte sätter skepp utanför index
+                        while (aircraftCarrierYAxis > 6)
+                        {
+                            aircraftCarrierYAxis = generator.Next(10);
+                        }
+                        board[aircraftCarrierYAxis + index, aircraftCarrierXAxis] += 1;
+                    }
+                }
+
+                else if (direction == 2)
+                {
+                    for (int index = 0; index < 4; index++)
+                    {   //så den inte sätter skepp utanför index
+                        while (aircraftCarrierXAxis > 6)
+                        {
+                            aircraftCarrierXAxis = generator.Next(10);
+                        }
+                        board[aircraftCarrierYAxis, aircraftCarrierXAxis + index] += 1;
+                    }
+                }
+
+
+                //for loop för att jag vet att den alltid kommer att köras 10 gånger
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (board[i, j] == 2)
+                        {
+                            //overlap finns eftersom att 
+                            overlap = true;
+                        }
+                    }
+                }
+
+                if (overlap == true)
+                {
+                    for (int index = 0; index < 3; index++)
+                    {
+                        board[aircraftCarrierYAxis + index, aircraftCarrierXAxis] -= 1;
+                    }
+                }
+
+                else
+                {
+                    finished = true;
+                }
+            }
+            return board;
+        }
+
+        private static int[,] PlaceBattleShip(int[,] board)
+        {
+            Random generator = new Random();
+
+            int battleShipYAxis = 0;
+
+            int battleShipXAxis = 0;
+
+            bool overlap = false;
+
+            bool finished = false;
+
+            while (finished == false)
+            {
+                battleShipYAxis = generator.Next(10);
+
+                battleShipXAxis = generator.Next(10);
+
+                overlap = false;
+
+                int direction = generator.Next(2);
+
+                if (direction == 1)
+                {
+                    for (int index = 0; index < 4; index++)
+                    {   //så den inte sätter skepp utanför index
+                        while (battleShipYAxis > 6)
+                        {
+                            battleShipYAxis = generator.Next(10);
+                        }
+                        board[battleShipYAxis + index, battleShipXAxis] += 1;
+                    }
+                }
+
+                else if (direction == 2)
+                {
+                    for (int index = 0; index < 4; index++)
+                    {   //så den inte sätter skepp utanför index
+                        while (battleShipXAxis > 6)
+                        {
+                            battleShipXAxis = generator.Next(10);
+                        }
+                        board[battleShipYAxis, battleShipXAxis + index] += 1;
+                    }
+                }
+
+                
+                //for loop för att jag vet att den alltid kommer att köras 10 gånger
+                for (int i = 0; i < 10; i++)
+                {
+                    for (int j = 0; j < 10; j++)
+                    {
+                        if (board[i, j] == 2)
+                        {
+                            //overlap finns eftersom att 
+                            overlap = true;
+                        }
+                    }
+                }
+
+                if (overlap == true)
+                {
+                    for (int index = 0; index < 3; index++)
+                    {
+                        board[battleShipYAxis + index, battleShipXAxis] -= 1;
+                    }
+                }
+
+                else
+                {
+                    finished = true;
+                }
+            }
             return board;
         }
 
