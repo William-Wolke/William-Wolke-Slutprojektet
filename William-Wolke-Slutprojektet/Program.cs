@@ -16,22 +16,29 @@ namespace William_Wolke_Slutprojektet
             //currentposition visar ens nuvarande läge och styr då markören.
             int[] currentPosition = { 0, 0 };
 
+            int playerPoints = 0;
+
             bool gameOver = false;
 
             PlaceShips(board);
 
-            PlayGame(board, currentPosition, gameOver);
+            PlayGame(board, currentPosition, gameOver, playerPoints);
         }
 
-        private static void PlayGame(int[,] board, int[] currentPosition, bool gameOver)
+        private static void PlayGame(int[,] board, int[] currentPosition, bool gameOver, int playerPoints)
         {
             //WHile loop eftersom att man inte vet hur många gånger spelaren kommer att skjuta innan spelet är över
             while (gameOver == false)
             {
-                PlotBoard(board, currentPosition);
+                PlotBoard(board, currentPosition, playerPoints);
 
                 Console.WriteLine();
-                ChangePositionOrFire(currentPosition, board);
+                ChangePositionOrFire(currentPosition, board, playerPoints);
+
+                if (playerPoints >= 26)
+                {
+                    gameOver = true;
+                }
             }
         }
 
@@ -163,7 +170,7 @@ namespace William_Wolke_Slutprojektet
                 {
                     for (int index = 0; index < 4; index++)
                     {   //så den inte sätter skepp utanför index
-                        while (battleShipYAxis > 6)
+                        while (battleShipYAxis > 5)
                         {
                             battleShipYAxis = generator.Next(10);
                         }
@@ -189,9 +196,9 @@ namespace William_Wolke_Slutprojektet
                 {
                     for (int j = 0; j < 10; j++)
                     {
-                        if (board[i, j] == 2)
+                        if (board[i, j] > 1)
                         {
-                            //overlap finns eftersom att 
+                            //overlap finns eftersom att den inte ska gå igenom och ändra i if (overlap == true) flera gånger så att den
                             overlap = true;
                         }
                     }
@@ -447,7 +454,7 @@ namespace William_Wolke_Slutprojektet
             return board;
         }
 
-        private static void PlotBoard(int[,] board, int[] currentPosition)
+        private static void PlotBoard(int[,] board, int[] currentPosition, int playerPoints)
         {
             Console.Clear();
             //FOr loop eftersom att den endast kommer köras ett visst antal gånger
@@ -481,9 +488,10 @@ namespace William_Wolke_Slutprojektet
                 Console.WriteLine();
 
             }
+            Console.WriteLine(playerPoints);
         }
 
-        private static int[] ChangePositionOrFire(int[] currentPosition, int[,] board)
+        private static int[] ChangePositionOrFire(int[] currentPosition, int[,] board, int playerPoints)
         {
             ConsoleKeyInfo ValidKeys = Console.ReadKey(true);
 
@@ -547,7 +555,7 @@ namespace William_Wolke_Slutprojektet
 
             else if (ValidKeys.Key == ConsoleKey.Enter)
             {
-                Shoot(currentPosition, board);
+                Shoot(currentPosition, board, playerPoints);
             }
 
             else
@@ -558,11 +566,9 @@ namespace William_Wolke_Slutprojektet
             return currentPosition;
         }
 
-        private static void Shoot(int[] currentPosition, int[,] board)
+        private static int Shoot(int[] currentPosition, int[,] board, int playerPoints)
         {
             int[,] shotSpots = new int[10, 10];
-
-            int playerPoints = 0;
 
             if (board[currentPosition[0], currentPosition[1]] == 1)
             {
@@ -572,8 +578,6 @@ namespace William_Wolke_Slutprojektet
 
                     shotSpots[currentPosition[0], currentPosition[1]] = 1;
                 }
-
-
             }
 
             else if (board[currentPosition[0], currentPosition[1]] == 0)
@@ -583,16 +587,17 @@ namespace William_Wolke_Slutprojektet
 
             if (board[currentPosition[0], currentPosition[1]] == 3)
             {
-
-                Console.WriteLine("Lemur träff");
+                playerPoints += 1;
+                
             }
 
             else if (board[currentPosition[0], currentPosition[1]] == 2)
             {
-                Console.WriteLine("Lemur miss");
+               
             }
             //shotSpots håller koll på vart man skjuter så att man inte skjuter på ett ställe flera gånger och kanske får mer poäng etc
             shotSpots[currentPosition[0], currentPosition[1]] = 1;
+            return playerPoints;
         }
     }
 }
