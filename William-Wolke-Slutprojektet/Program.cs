@@ -59,7 +59,7 @@ namespace William_Wolke_Slutprojektet
         private static void RunGame()
         {
 
-            //En 10*10 2d array
+            //En 10*10 2d array, jag använder array eftersom att spelplanen är statisk och alltid kommer att vara 10*10 och man kommer aldrig att behöva ta bort eller lägga till platser på spelplanen.
             int[,] board = new int[10, 10];
             //currentposition visar ens nuvarande läge och styr då markören.
             int[] currentPosition = { 0, 0 };
