@@ -18,7 +18,6 @@ namespace William_Wolke_Slutprojektet
             bool noWinners = true;
             int[] ages = new int[3];
 
-
             while (menuChoice != "4")
             {
                 Console.WriteLine("---------------------------------------");
@@ -66,8 +65,6 @@ namespace William_Wolke_Slutprojektet
 
             bool runProgram = true;
 
-            
-
             while (runProgram == true)
             {
                 int playerPoints = 0;
@@ -75,8 +72,6 @@ namespace William_Wolke_Slutprojektet
                 PlaceShips(board);
 
                 PlayGame(board, currentPosition, playerPoints);
-
-                
             }
         }
 
@@ -219,7 +214,6 @@ namespace William_Wolke_Slutprojektet
                 aircraftCarrierYAxis = generator.Next(10);
 
                 aircraftCarrierXAxis = generator.Next(10);
-
                 overlap = false;
 
                 int direction = generator.Next(2);
@@ -255,7 +249,7 @@ namespace William_Wolke_Slutprojektet
                     {
                         if (board[i, j] == 2)
                         {
-                            //overlap finns eftersom att 
+                            //overlap finns eftersom att den ska säga till 
                             overlap = true;
                         }
                     }
@@ -271,6 +265,11 @@ namespace William_Wolke_Slutprojektet
                             board[aircraftCarrierYAxis + index, aircraftCarrierXAxis] -= 1;
                         }
                     }
+
+                    else
+                    {
+                        finished = true;
+                    }
                 }
                 //här tar den bort horizontelt skepp
                 else if (direction == 0)
@@ -282,12 +281,14 @@ namespace William_Wolke_Slutprojektet
                             board[aircraftCarrierYAxis, aircraftCarrierXAxis + index] -= 1;
                         }
                     }
+
+                    else
+                    {
+                        finished = true;
+                    }
                 }
 
-                else
-                {
-                    finished = true;
-                }
+                
             }
             return board;
         }
@@ -328,9 +329,9 @@ namespace William_Wolke_Slutprojektet
                 //om skeppet blev vertikalt
                 else if (direction == 0)
                 {   //sätter ut skeppet som är 4 långt
-                    for (int index = 0; index < 5; index++)
+                    for (int index = 0; index < 6; index++)
                     {   //så den inte sätter skepp utanför index
-                        while (battleShipXAxis > 5)
+                        while (battleShipXAxis > 6)
                         {
                             battleShipXAxis = generator.Next(10);
                         }
@@ -361,6 +362,11 @@ namespace William_Wolke_Slutprojektet
                             board[battleShipYAxis + index, battleShipXAxis] -= 1;
                         }
                     }
+                    //om inget lappar över är den klar
+                    else
+                    {
+                        finished = true;
+                    }
                 }
                 //här tar den bort horizontelt skepp
                 else if (direction == 0)
@@ -372,12 +378,13 @@ namespace William_Wolke_Slutprojektet
                             board[battleShipYAxis, battleShipXAxis + index] -= 1;
                         }
                     }
+                    //om inget lappar över är den klar
+                    else
+                    {
+                        finished = true;
+                    }
                 }
-                //om inget lappar över är den klar
-                else
-                {
-                    finished = true;
-                }
+                
             }
             return board;
         }
